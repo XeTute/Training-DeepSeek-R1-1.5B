@@ -21,9 +21,10 @@ Minimal script I'm using to train DeepSeek R1 1.5B on a RTX4060 8GB
 ## Customize
 
 ### Customize Training Arguments
-Line five to line nine look like following:
+Line five to line ten look like following:
 ```py
 # constants for you to set
+samples = 1188
 epochs = 1 # more takes more
 batchsize = 1 # per device
 gradientaccum = 4 # if your context length is already too low, prefer lowering this

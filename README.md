@@ -32,6 +32,10 @@ maxctxlen = 4 * 1024
 Feel free to modify these parameters given how much compute, memory, et cetera you got
 
 ### Customize Data to train on
+
+> [!TIP]
+> Don't have any data for your use-case? Synthetically generate it using [this script](https://github.com/XeTute/Synthetic-Data-Generation) 
+
 To modify the data you'll be training on, make sure it follows this JSON format (known as Alpaca I believe):
 ```JSON
 [

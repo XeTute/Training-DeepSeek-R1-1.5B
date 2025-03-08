@@ -4,7 +4,6 @@
 # Script tested on a device running Windows 10 with 64GB RAM + RTX4060 8GB; VRAM 8GB native + 22GB Unified CUDA
 
 # constants for you to set
-samples = 1188
 epochs = 1 # more takes more
 batchsize = 1 # per device
 gradientaccum = 2 # if your context length is already too low, prefer lowering this

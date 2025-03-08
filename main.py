@@ -1,12 +1,13 @@
 # Code written by Asadullah Hamzah
 # Licensed under MIT
 # If you use, modify or whatever this code, please feel free to also promote this repo ♥
+# Script tested on a device running Windows 10 with 64GB RAM + RTX4060 8GB; VRAM 8GB native + 22GB Unified CUDA
 
 # constants for you to set
 samples = 1188
 epochs = 1 # more takes more
 batchsize = 1 # per device
-gradientaccum = 4 # if your context length is already too low, prefer lowering this
+gradientaccum = 2 # if your context length is already too low, prefer lowering this
 maxctxlen = 4 * 1024
 
 import torch
@@ -22,7 +23,7 @@ model = AutoModelForCausalLM.from_pretrained(modelname, device_map="auto", trust
 print(f"Loaded {modelname} successfully.\n")
 
 # Expectes a [ { "instruction": "That's the system prompt", "input": "user input", "output": "expected output" }, repeat ] / Alpaca format
-rawdataset = load_dataset("json", data_files="data.json", streaming=True) # or data_files={"train": "data.json"}
+rawdataset = load_dataset("json", data_files="data.json", streaming=False) # or data_files={"train": "data.json"}, streaming false to avoid crashing halfway through training
 
 # ChatML
 def merge_fields(example):
@@ -34,6 +35,7 @@ def tokenize(examples):
     encodings["labels"] = encodings["input_ids"].copy()
     return encodings
 dataset = merged_dataset["train"].map(tokenize, batched=True, remove_columns=["instruction", "input", "output"])
+samples = len(dataset)
 maxsteps = (samples // (batchsize * gradientaccum)) * epochs
 print(f"Found {samples} samples / rows, logically results to {maxsteps} steps.")
 
